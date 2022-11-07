@@ -1,5 +1,7 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+
 $superheroes = [
   [
       "id" => 1,
@@ -63,10 +65,57 @@ $superheroes = [
   ], 
 ];
 
-?>
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+$hero = filter_input(INPUT_GET, 'query'); 
+$search = "false";
+
+//check if the input is empty and if it is then displays all the heroes' aliases
+
+if ($hero == ""):
+    ?>
+        <ul>
+        <?php foreach ($superheroes as $superhero): ?>
+          <li><?= $superhero['alias']; ?></li>
+        <?php endforeach; ?>
+        </ul>
+    <?php
+
+else:
+
+    //if the input is valid then the heroe's information is displayed
+
+    foreach ($superheroes as $superhero):
+        if ($superhero['alias'] == $hero or $superhero['name'] == $hero):
+            $search = "true";
+            ?><h3><?= $superhero['alias']; ?></h3>
+            <h4> A.K.A <?= $superhero['name']; ?></h4>
+            <p><?= $superhero['biography']; ?></p>
+            <?php
+        endif;
+    endforeach;
+
+    //prints error message if hero is not search
+
+    if ($search == "false"):
+        ?> <p style="color: red"> Superhero not search </p> <?php
+    endif;
+
+endif;
+  
+    ?>
+
+
+
+
+
+
+        
+   
+
+
+
+
+
+  
+  
+
